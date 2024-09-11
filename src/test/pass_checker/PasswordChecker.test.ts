@@ -1,5 +1,5 @@
 import { PasswordChecker } from "../../app/pass_checker/PasswordChecker";
-import { PasswordErrors } from "../../app/pass_checker/PasswordChecker";
+import { PasswordError } from "../../app/pass_checker/PasswordChecker";
 
 describe("PasswordChecker.ts file", () => {
   describe("PasswordChecker function", () => {
@@ -11,17 +11,17 @@ describe("PasswordChecker.ts file", () => {
 
     it("should return SHORT error message for password with LESS than required characters", () => {
       const actual = sut.checkPassword("123456A");
-      expect(actual.reasons).toContain(PasswordErrors.SHORT);
+      expect(actual.reasons).toContain(PasswordError.SHORT);
     });
 
     it("should return UPPER error message for a password with no upper case chars", () => {
       const actual = sut.checkPassword("abcd");
-      expect(actual.reasons).toContain(PasswordErrors.NO_UPPER);
+      expect(actual.reasons).toContain(PasswordError.NO_UPPER);
     });
 
     it("should return LOWER error message for a password with no lower case chars", () => {
       const actual = sut.checkPassword("ABCD");
-      expect(actual.reasons).toContain(PasswordErrors.NO_LOWER);
+      expect(actual.reasons).toContain(PasswordError.NO_LOWER);
     });
 
     it("should reject a password of diverse case less than required length", () => {
