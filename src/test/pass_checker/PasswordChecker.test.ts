@@ -9,30 +9,34 @@ describe("PasswordChecker.ts file", () => {
       sut = new PasswordChecker();
     });
 
-    it("should return false for password with less than 8 characters", () => {
+    it("should return SHORT error message for password with LESS than required characters", () => {
       const actual = sut.checkPassword("123456A");
-      expect(actual.isValid).toBe(false);
       expect(actual.reasons).toContain(PasswordErrors.SHORT);
     });
 
-    it("it should return true for password with 8 characters", () => {
-      const actual = sut.checkPassword("1234567Aa");
-      expect(actual.reasons).not.toContain(PasswordErrors.SHORT);
+    it("should return UPPER error message for a password with no upper case chars", () => {
+      const actual = sut.checkPassword("abcd");
+      expect(actual.reasons).toContain(PasswordErrors.NO_UPPER);
     });
 
-    it.skip("should return false for a password with no upper case chars", () => {
-      const actual = sut.checkPassword("12345abc");
-      expect(actual).toBe(false);
+    it("should return LOWER error message for a password with no lower case chars", () => {
+      const actual = sut.checkPassword("ABCD");
+      expect(actual.reasons).toContain(PasswordErrors.NO_LOWER);
     });
 
-    it.skip("should return false for a password with no lower case chars", () => {
-      const actual = sut.checkPassword("12345ABC");
-      expect(actual).toBe(false);
+    it("should reject a password of diverse case less than required length", () => {
+      const actual = sut.checkPassword("ABCDefg");
+      expect(actual.isValid).toBe(false);
     });
 
-    it.skip("should return true for a password with both upper and lower case chars", () => {
+    it("should accept a password of diverse length and of exactly required length", () => {
       const actual = sut.checkPassword("12345Abc");
-      expect(actual).toBe(true);
+      expect(actual.isValid).toBe(true);
+    });
+
+    it("should accept password of diverse case greater than required length", () => {
+      const actual = sut.checkPassword("1234567Aa");
+      expect(actual.isValid).toBe(true);
     });
   });
 });
